@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password123
+    volumes:
+      - dbdata://var/lib/postgresql/data
+
+  node:
+    build:
+      context: .
+    volumes:
+      - ./src:/app/src
+    depends_on:
+      - postgres
+    ports:
+      - 8081:8081
+
+volumes:
+  dbdata:
